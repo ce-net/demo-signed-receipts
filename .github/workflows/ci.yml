@@ -1,0 +1,44 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cargo test --workspace --locked
+      - name: the workload reproduces the committed receipts byte for byte
+        run: |
+          cargo run --locked -- workload
+          for f in receipts.jsonl tampered.jsonl gapped.jsonl keys.json; do cmp out/$f proof/$f; done
+      - name: receipt.sign on ce-net-local-dev-sim reproduces the committed sim receipts
+        run: |
+          git clone --depth 1 https://github.com/ce-net/ce-net-local-dev-sim ../ce-net-local-dev-sim
+          cargo run --locked -- sim ../ce-net-local-dev-sim
+          cmp out/sim-receipts.jsonl proof/sim-receipts.jsonl
+      - name: the CLI exits 0 on honest files and 1 on the tampered and gapped ones
+        run: |
+          for f in receipts sim-receipts; do target/debug/demo-signed-receipts verify proof/$f.jsonl > /dev/null; done
+          for f in tampered gapped; do if target/debug/demo-signed-receipts verify proof/$f.jsonl > /dev/null; then exit 1; fi; done
+
+  python-offline:
+    # verify.py from ce-net-capability-verify, in a clean Python with no packages and no network.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: git clone --depth 1 https://github.com/ce-net/ce-net-capability-verify ../ce-net-capability-verify
+      - run: docker pull python:3.12-alpine
+      - name: no network inside the container
+        run: |
+          if docker run --rm --network none python:3.12-alpine python3 -c "import socket; socket.create_connection(('1.1.1.1', 443), 3)"; then
+            echo "network is reachable"; exit 1
+          fi
+      - name: verify.py on every fixture, offline
+        run: |
+          docker run --rm --network none -v "$PWD:/w:ro" -v "$PWD/../ce-net-capability-verify:/v:ro" -w /w python:3.12-alpine sh -euc '
+            for f in receipts tampered gapped sim-receipts; do
+              want=0; case $f in tampered|gapped) want=1;; esac
+              code=0; python3 -I /v/verify.py proof/$f.jsonl > /tmp/$f.txt || code=$?
+              diff -u proof/$f.expected.txt /tmp/$f.txt
+              [ "$code" = "$want" ] || { echo "$f: exit $code, want $want"; exit 1; }
+              echo "ok   $f.jsonl (exit $code)"
+            done'

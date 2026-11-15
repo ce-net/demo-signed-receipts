@@ -1,0 +1,8 @@
+200 receipts from 3 node(s), capability root 86f9f18295a18b9d (pin it with --root)
+  node      receipts  valid  chain                    cells
+  3fa01cf2       106    106  intact seq 0..105        kv.get kv.put
+  9cb9533e        43     42  1 break(s) seq 0..42     text.upper
+  e849da40        51     51  intact seq 0..50         sum
+FAIL line 42 (text.upper seq 9 on node 9cb9533e): invalid signature: these fields are not what node 9cb9533e signed
+FAIL chain 9cb9533e: line 43 (seq 10) does not link to line 42 (seq 9), which was altered after it was signed
+INVALID: 199 of 200 receipts valid, 1 chain break(s)

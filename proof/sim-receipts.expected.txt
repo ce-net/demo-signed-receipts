@@ -1,0 +1,4 @@
+20 receipts from 1 node(s), capability root 86f9f18295a18b9d (pin it with --root)
+  node      receipts  valid  chain                    cells
+  b7e26cb9        20     20  intact seq 0..19         mcp.echo
+VALID: 20 of 20 receipts valid

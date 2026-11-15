@@ -1,0 +1,7 @@
+199 receipts from 3 node(s), capability root 86f9f18295a18b9d (pin it with --root)
+  node      receipts  valid  chain                    cells
+  3fa01cf2       106    106  intact seq 0..105        kv.get kv.put
+  9cb9533e        43     43  intact seq 0..42         text.upper
+  e849da40        50     50  1 break(s) seq 0..50     sum
+FAIL chain e849da40: gap: 1 receipt(s) missing between seq 25 (line 98) and seq 27 (line 104)
+INVALID: 199 of 199 receipts valid, 1 chain break(s)

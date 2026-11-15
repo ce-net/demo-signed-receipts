@@ -1,0 +1,6 @@
+200 receipts from 3 node(s), capability root 86f9f18295a18b9d (pin it with --root)
+  node      receipts  valid  chain                    cells
+  3fa01cf2       106    106  intact seq 0..105        kv.get kv.put
+  9cb9533e        43     43  intact seq 0..42         text.upper
+  e849da40        51     51  intact seq 0..50         sum
+VALID: 200 of 200 receipts valid

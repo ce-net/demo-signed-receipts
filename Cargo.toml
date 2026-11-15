@@ -1,0 +1,30 @@
+[workspace]
+resolver = "2"
+members = [".", "crates/receipt"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+authors = ["Leif Rydenfalk"]
+repository = "https://github.com/ce-net/demo-demo-signed-receipts"
+
+[workspace.dependencies]
+ce-net-proto = { git = "https://github.com/ce-net/ce-net-proto", rev = "ff44925" }
+receipt = { path = "crates/receipt" }
+
+[package]
+name = "demo-signed-receipts"
+description = "Every call leaves a receipt: a 200-call workload whose signed, hash-linked receipts anyone can verify offline."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[dependencies]
+ce-net-proto.workspace = true
+receipt.workspace = true
+sha2 = "0.10"
+hex = "0.4"
+serde_json = "1"
