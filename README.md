@@ -21,7 +21,7 @@ the middle and the hash-linked chain shows the gap.
 Needs git, Rust 1.85+ and Python 3.9+. Everything it uses is public.
 
 ```sh
-git clone https://github.com/ce-net/demo-demo-signed-receipts && cd demo-demo-signed-receipts
+git clone https://github.com/ce-net/demo-signed-receipts && cd demo-signed-receipts
 git clone https://github.com/ce-net/ce-net-capability-verify ../ce-net-capability-verify
 cargo run -- workload
 python3 ../ce-net-capability-verify/verify.py out/receipts.jsonl

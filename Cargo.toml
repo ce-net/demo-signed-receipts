@@ -7,7 +7,7 @@ version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
 authors = ["Leif Rydenfalk"]
-repository = "https://github.com/ce-net/demo-demo-signed-receipts"
+repository = "https://github.com/ce-net/demo-signed-receipts"
 
 [workspace.dependencies]
 ce-net-proto = { git = "https://github.com/ce-net/ce-net-proto", rev = "ff44925" }
